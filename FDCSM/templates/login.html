@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录</title> {# 建议加上 title 标签 #}
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-4.4.1-dist/css/bootstrap.css' %}">
+    <style>
+        .account {
+            width: 400px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            box-shadow: 5px 5px 20px #aaa;
+
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+            padding: 20px 40px;
+        }
+
+        .account h2 {
+            margin-top: 10px;
+            text-align: center;
+            margin-bottom: 20px; /* 给标题和消息之间留点空间 */
+        }
+
+        /* 为 Django messages 添加一些基本样式 */
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px; /* 消息和表单之间的间距 */
+        }
+        .messages li {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            border-radius: .25rem; /* Bootstrap 风格的圆角 */
+        }
+        /* 消息级别对应的 Bootstrap alert 样式 (或者你可以自定义) */
+        .messages li.debug {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .messages li.info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        .messages li.success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .messages li.warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+        .messages li.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+<body> {# 将 div.account 移到 body 内部是更标准的 HTML 结构 #}
+
+<div class="account">
+
+    {# ---- 在这里添加 Django messages 显示代码 ---- #}
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {# ---- Django messages 显示代码结束 ---- #}
+
+    <h2>管理员登录</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">用户名</label>
+            {{ form.username }}
+            <span style="color: red;">{{ form.username.errors.0 }}</span>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">密码</label>
+            {{ form.password }}
+            <span style="color: red;">{{ form.password.errors.0 }}</span>
+        </div>
+
+        <input type="submit" value="登 录" class="btn btn-primary btn-block"> {# btn-block 使按钮宽度充满父容器 #}
+    </form>
+</div>
+
+</body>
+</html>

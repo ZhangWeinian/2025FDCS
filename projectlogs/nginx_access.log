@@ -1,0 +1,4 @@
+172.25.224.1 - - [26/May/2025:12:22:54 +0800] "GET / HTTP/1.1" 502 568 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"
+172.25.224.1 - - [26/May/2025:12:22:55 +0800] "GET /favicon.ico HTTP/1.1" 502 568 "http://zhangwn2.dpdns.org/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"
+172.25.224.1 - - [26/May/2025:12:23:15 +0800] "GET /lgoin HTTP/1.1" 502 568 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"
+172.25.224.1 - - [26/May/2025:12:23:16 +0800] "GET /favicon.ico HTTP/1.1" 502 568 "http://zhangwn2.dpdns.org/lgoin" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"

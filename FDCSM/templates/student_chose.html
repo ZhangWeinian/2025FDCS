@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" , href="{% static 'plugins/bootstrap-4.4.1-dist/css/bootstrap.css' %}">
+    <title>选择导师（三个志愿）</title>
+</head>
+
+<body>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light con">
+        <div class="container">
+            <div class="collapse navbar-collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            {{ request.session.info.name }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/stu_logout/">注销</a>
+                        </div>
+                    </li>
+                    {#                    <li>#}
+                    {#                        <a class="nav-link" href="#" id="btnEdit" uid="{{ request.session.info.id }}">修改个人信息</a>#}
+                    {#                    </li>#}
+                    <li>
+                        <a class="nav-link" href="/student_info/student_chose/">导师选择</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/student_info/upload/">上传成绩及简历</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="alert-heading">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">成绩</th>
+                <th scope="col">简历</th>
+                <th scope="col">修改个人信息</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <a id="grade" class="btn btn-primary btn-sm" target="_blank" href="/media/{{ queryVit.STU_GRADE }}">
+                        查看成绩
+                    </a>
+                </td>
+                <td>
+                    <a id="vit" class="btn btn-primary btn-sm" target="_blank" href="/media/{{ queryVit.STU_VIT }}">
+                        查看简历
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-sm" target="_blank" id="btnEdit" uid="{{ request.session.info.id }}">修改个人信息</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">第一志愿</th>
+                <th scope="col">第二志愿</th>
+                <th scope="col">第三志愿</th>
+                <th scope="col">操 作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ queryVit.STU_ONE_SEL.PFS_NAM }}</td>
+                <td>{{ queryVit.STU_TOW_SEL.PFS_NAM }}</td>
+                <td>{{ queryVit.STU_THR_SEL.PFS_NAM }}</td>
+                <td><a uid="{{ queryVit.STU_NBR }}" class="btn btn-danger btn-sm" ,
+                       href="/student_info/delete_sel/">重选</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">导师姓名</th>
+                <th scope="col">导师介绍</th>
+                <th scope="col">操 作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in queryset %}
+                <tr id="{{ obj.PFS_NBR }}">
+                    <th>{{ obj.PFS_NAM }}</th>
+                    <td>{{ obj.PFS_INTRO }}</td>
+                    <td>
+                        <a uid="{{ obj.PFS_NBR }}" class="btn btn-primary btn-sm btn-select">选择</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {{ page_string }}
+        </ul>
+    </nav>
+</div>
+
+
+{#    新建对话框#}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span></button>
+                <h4 class="modal-title container" id="myModelLabel">添加学生信息</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="formAdd">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                            </div>
+                        </div>
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                        <span class="error-msg" style="color: red;"></span>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button id="btnSave" type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
+
+<script type="text/javascript">
+    var EDIT_ID;
+    $(function () {
+        bindBtnEditEvent();
+        bindBtnSaveEvent();
+        bindBtnSelectEvent();
+        bindBtnGradeEvent();
+        bindBtnVitEvent();
+    })
+
+    function bindBtnEditEvent() {
+        $("#btnEdit").click(function () {
+            $("#myModelLabel").text("修改个人信息");
+            $("#id_STU_NBR").attr("readonly", "readonly");
+            $("#id_STU_NAM").attr("readonly", "readonly");
+            $("#id_STU_PWD").attr("type", "password");
+            $("#id_STU_PRO").attr("style", "pointer-events:none");
+            $("#id_STU_PRO").attr("readonly", "readonly");
+            $(".error-msg").empty();
+            var uid = $(this).attr("uid");
+            EDIT_ID = uid;
+            $("#myModal").modal("show");
+            $.ajax({
+                url: "/student_info/detail/",
+                data: {
+                    "uid": uid
+                },
+                type: "GET",
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        $.each(res.data, function (name, value) {
+                            $("#id_" + name).val(value);
+                        })
+                    } else {
+                        alert(res.error);
+                    }
+                }
+
+            })
+
+
+        })
+    }
+
+    function bindBtnSaveEvent() {
+        $("#btnSave").click(function () {
+
+            $(".error-msg").empty();
+            $.ajax({
+                url: "/student_info/edit/" + "?uid=" + EDIT_ID,
+                type: "post",
+                data: $("#formAdd").serialize(),
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        alert("维护成功");
+                        $("#formAdd")[0].reset();
+                        $("#myModal").modal("hide");
+                        location.reload();
+                    } else {
+                        if (res.tips) {
+                            alert(res.tips)
+                        } else {
+                            $.each(res.error, function (name, errorList) {
+                                $("#id_" + name).next().text(errorList[0]);
+                            })
+                        }
+
+                    }
+                }
+            })
+
+        })
+    }
+
+    function bindBtnSelectEvent() {
+        $(".btn-select").click(function () {
+            $.ajax({
+                url: "/student_info/student_select/",
+                type: "post",
+                data: {"uid": $(this).attr("uid")},
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        alert("志愿选择成功");
+                        location.reload();
+                    } else {
+                        alert(res.error);
+                    }
+                }
+            })
+        })
+    }
+
+    function bindBtnGradeEvent() {
+        var link = $('#grade').attr('href')
+        $("#grade").click(function (e) {
+            if (link == '/media/') {
+                e.preventDefault();
+                alert("请上传成绩！");
+                return false
+            }
+        })
+    }
+
+    function bindBtnVitEvent() {
+        var link = $('#vit').attr('href')
+        $("#vit").click(function (e) {
+            if (link == '/media/') {
+                e.preventDefault();
+                alert("请上传简历！");
+                return false
+            }
+        })
+    }
+
+</script>
+
+</body>
+</html>

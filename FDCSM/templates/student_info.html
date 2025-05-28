@@ -1,0 +1,308 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>研究生页面</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <input type="button" id="btnAdd" value="注册学生信息" class="btn btn-primary"></input>
+            <input type="button" id="btnExcelAdd" value="批量导入" class="btn btn-success"></input>
+        </div>
+        <div class="alert-heading">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">姓名</th>
+                    <th scope="col">专业</th>
+                    <th scope="col">状态</th>
+                    <th scope="col">操 作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                    <tr id="{{ obj.STU_NBR }}">
+                        <td>{{ obj.STU_NBR }}</td>
+                        <td>{{ obj.STU_NAM }}</td>
+                        <td>{{ obj.get_STU_PRO_display }}</td>
+                        <td>{{ obj.get_STU_TYP_display }}</td>
+                        <td>
+                            <a uid="{{ obj.STU_NBR }}" class="btn btn-primary btn-sm btn-edit">编辑</a>
+                            <a uid="{{ obj.STU_NBR }}" class="btn btn-danger btn-sm btn-delete">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {{ page_string }}
+            </ul>
+        </nav>
+    </div>
+
+    {#    新建Excel对话框#}
+    <div class="modal fade" id="myExcelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span></button>
+                    <h4 class="modal-title container" id="myExcelModelLabel">添加管理员</h4>
+                </div>
+
+                <div class="modal-body">
+                    <a type="button" class="btn btn-success" href="/student_info/excel_temp/">下载Excel模板</a>
+                    <form id="formExcelAdd">
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">选择Excel文件</label>
+                            <input type="file" class="form-control-file" id="STUExcelFile">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button id="btnExcelSave" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {#    新建对话框#}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span></button>
+                    <h4 class="modal-title container" id="myModelLabel">添加学生信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="formAdd">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            <span class="error-msg" style="color: red;"></span>
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button id="btnSave" type="button" class="btn btn-primary">保存</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="alert modal-content alert-danger" role="alert">
+                <h4 class="alert-heading">是否确定删除？</h4>
+                <p>删除所有相关连数据</p>
+                <hr>
+                <p style="text-align: right;">
+                    <button id="btnConfirmDelete" type="button" class="btn btn-danger">确 定</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">取 消</button>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script type="text/javascript">
+        var DELETE_ID;
+        var EDIT_ID;
+        $(function () {
+            bindBtnAddEvent();
+            bindBtnSaveEvent();
+            bindBtnDeletEvent();
+            bindBtnConfirmDeleteEvent();
+            bindBtnEditEvent();
+            bindBtnExcelAddEvent();
+            bindBtnExcelSaveEvent();
+        })
+
+        function bindBtnExcelAddEvent() {
+            $("#btnExcelAdd").click(function () {
+                $("#formExcelAdd")[0].reset();
+                $(".error-msg").empty();
+                $("#myExcelModelLabel").text("上传Excel");
+                $("#myExcelModal").modal("show");
+            })
+        }
+
+        function bindBtnExcelSaveEvent() {
+            $("#btnExcelSave").click(function () {
+                var files = $('#STUExcelFile').prop('files');
+                var data = new FormData();
+                data.append('STUExcelFile', files[0]);
+                $.ajax({
+                    url: "/student_info/excel_add/",
+                    type: "POST",
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.status) {
+                            alert("新增成功");
+                            $("#formExcelAdd")[0].reset();
+                            $("#myExcelModal").modal("hide");
+                            location.reload();
+                        } else {
+                            alert(res.error);
+                        }
+                    }
+                })
+            })
+        }
+
+        function bindBtnAddEvent() {
+            $("#btnAdd").click(function () {
+                EDIT_ID = undefined;
+                $("#formAdd")[0].reset();
+                $("#id_STU_NBR").removeAttr("readonly");
+                $("#id_STU_PWD").attr("type", "password");
+                $(".error-msg").empty();
+                $("#myModelLabel").text("添加学生信息");
+                $("#myModal").modal("show");
+            })
+        }
+
+        function bindBtnSaveEvent() {
+            $("#btnSave").click(function () {
+
+                $(".error-msg").empty();
+                if (EDIT_ID) {
+                    doEdit();
+                } else {
+                    doAdd();
+                }
+
+            })
+        }
+
+        function doAdd() {
+            $.ajax({
+                url: "/student_info/add/",
+                type: "post",
+                data: $("#formAdd").serialize(),
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        alert("新增成功");
+                        $("#formAdd")[0].reset();
+                        $("#myModal").modal("hide");
+                        location.reload();
+                    } else {
+                        $.each(res.error, function (name, errorList) {
+                            $("#id_" + name).next().text(errorList[0]);
+                        })
+                    }
+                }
+            })
+        }
+
+        function doEdit() {
+            $.ajax({
+                url: "/student_info/edit/" + "?uid=" + EDIT_ID,
+                type: "post",
+                data: $("#formAdd").serialize(),
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        alert("维护成功");
+                        $("#formAdd")[0].reset();
+                        $("#myModal").modal("hide");
+                        location.reload();
+                    } else {
+                        if (res.tips) {
+                            alert(res.tips)
+                        } else {
+                            $.each(res.error, function (name, errorList) {
+                                $("#id_" + name).next().text(errorList[0]);
+                            })
+                        }
+
+                    }
+                }
+            })
+        }
+
+        function bindBtnDeletEvent() {
+            $(".btn-delete").click(function () {
+                $("#deleteModal").modal("show");
+                DELETE_ID = $(this).attr("uid");
+            })
+        }
+
+        function bindBtnConfirmDeleteEvent() {
+            $("#btnConfirmDelete").click(function () {
+                $.ajax({
+                    url: "/student_info/delete/",
+                    data: {
+                        "uid": DELETE_ID
+                    },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            location.reload();
+
+                        } else {
+                            alert("删除失败！")
+                        }
+                    }
+
+                })
+            })
+        }
+
+        function bindBtnEditEvent() {
+            $(".btn-edit").click(function () {
+                $("#myModelLabel").text("编辑");
+                $("#id_STU_NBR").attr("readonly", "readonly");
+                $("#id_STU_PWD").attr("type", "password");
+                $(".error-msg").empty();
+                var uid = $(this).attr("uid");
+                EDIT_ID = uid;
+                $("#myModal").modal("show");
+                $.ajax({
+                    url: "/student_info/detail/",
+                    data: {
+                        "uid": uid
+                    },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            $.each(res.data, function (name, value) {
+                                $("#id_" + name).val(value);
+                            })
+                        } else {
+                            alert(res.error);
+                        }
+                    }
+
+                })
+
+
+            })
+        }
+    </script>
+{% endblock %}
+

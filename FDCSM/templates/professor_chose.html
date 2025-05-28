@@ -1,0 +1,259 @@
+{% extends 'layout_pfs.html' %}
+
+{% block content %}
+    {#    已选择列表#}
+    <div class="container">
+        <div class="alert-heading">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">已选学生姓名</th>
+                    <th scope="col">已选学生专业</th>
+                    <th scope="col">已选学生电话</th>
+                    <th scope="col">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset1 %}
+                    <tr>
+                        <td>{{ obj.PFS_STU_NBR.STU_NAM }}</td>
+                        <td>{{ obj.PFS_STU_NBR.get_STU_PRO_display }}</td>
+                        <td>{{ obj.PFS_STU_NBR.STU_TEL_NBR }}</td>
+                        <td>
+                            <a href="#" uid="{{ obj.PFS_STU_NBR_id }}"
+                               class="btn btn-primary btn-sm btn-danger btn-delete">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {#    选择学生#}
+    <div class="container">
+        <div class="alert-heading">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">待选学生姓名</th>
+                    <th scope="col">专业</th>
+                    <th scope="col">电话</th>
+                    <th scope="col">成绩</th>
+                    <th scope="col">简历</th>
+                    <th scope="col">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                    <tr>
+                        <td>{{ obj.STU_NBR.STU_NAM }}</td>
+                        <td>{{ obj.STU_NBR.get_STU_PRO_display }}</td>
+                        <td>{{ obj.STU_NBR.STU_TEL_NBR }}</td>
+                        <td>
+                            <a id="grade" class="btn btn-primary btn-sm btn-grade" target="_blank"
+                               href="/media/{{ obj.STU_GRADE }}">
+                                查看成绩
+                            </a>
+                        </td>
+                        <td>
+                            <a id="vit" class="btn btn-primary btn-sm btn-vit" target="_blank" href="/media/{{ obj.STU_VIT }}">
+                                查看简历
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#"
+                               class="btn btn-primary btn-sm btn-select" id="btnSelect", uid="{{ obj.STU_NBR_id }}", pro="{{ obj.STU_NBR.STU_PRO }}">选择</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {{ page_string }}
+            </ul>
+        </nav>
+    </div>
+
+    {#    新建对话框#}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span></button>
+                    <h4 class="modal-title container" id="myModelLabel">修改信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="formAdd">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            <span class="error-msg" style="color: red;"></span>
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button id="btnSave" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        var EDIT_ID;
+        $(function () {
+            bindBtnVitEvent();
+            bindBtnGradeEvent();
+            bindBtnEditEvent();
+            bindBtnSaveEvent();
+            bindBtnSelectEvent();
+            bindBtnDeleteEvent();
+
+        })
+
+        function bindBtnDeleteEvent() {
+            $(".btn-delete").click(function () {
+                $.ajax({
+                    url: "/professor_info/professor_select_delect/",
+                    type: "POST",
+                    data: {
+                        "uid": $(this).attr("uid")
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            alert("删除成功");
+                            location.reload();
+                        } else {
+                            alert(res.errors);
+                        }
+                    }
+                })
+            })
+        }
+
+        function bindBtnSelectEvent() {
+            $(".btn-select").click(function () {
+                $.ajax({
+                    url: "/professor_info/professor_select/",
+                    type: "POST",
+                    data: {
+                        "uid": $(this).attr("uid"),
+                        "pro": $(this).attr("pro")
+                    },
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            alert("选择成功");
+                            location.reload();
+                        } else {
+                            alert(res.errors);
+                        }
+                    }
+                })
+            })
+        }
+
+        function bindBtnSaveEvent() {
+            $("#btnSave").click(function () {
+                $(".error-msg").empty();
+                if (EDIT_ID) {
+                    $.ajax({
+                        url: "/professor_info/edit/" + "?uid=" + EDIT_ID,
+                        type: "post",
+                        data: $("#formAdd").serialize(),
+                        dataType: "JSON",
+                        success: function (res) {
+                            if (res.status) {
+                                alert("维护成功");
+                                $("#formAdd")[0].reset();
+                                $("#myModal").modal("hide");
+                                location.reload();
+                            } else {
+                                if (res.tips) {
+                                    alert(res.tips)
+                                } else {
+                                    $.each(res.error, function (name, errorList) {
+                                        $("#id_" + name).next().text(errorList[0]);
+                                    })
+                                }
+
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        function bindBtnEditEvent() {
+            $("#btnEdit").click(function () {
+                $("#myModelLabel").text("编辑");
+                $("#id_PFS_NBR").attr("readonly", "readonly");
+                $("#id_PFS_NAM").attr("readonly", "readonly");
+                $("#id_PFS_NUM_MATH").attr("readonly", "readonly");
+                $("#id_PFS_NUM_PSC").attr("readonly", "readonly");
+                $("#id_PFS_NUM_SCI").attr("readonly", "readonly");
+                $("#id_PFS_PWD").attr("type", "password");
+                $(".error-msg").empty();
+                EDIT_ID = $(this).attr("uid");
+                $("#myModal").modal("show");
+                $.ajax({
+                    url: "/professor_info/detail/",
+                    data: {
+                        "uid": EDIT_ID
+                    },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            $.each(res.data, function (name, value) {
+                                $("#id_" + name).val(value);
+                            })
+                        } else {
+                            alert(res.error);
+                        }
+                    }
+
+                })
+
+
+            })
+        }
+
+        function bindBtnGradeEvent() {
+            $(".btn-grade").click(function (e) {
+                var link = $(this).attr('href')
+                if (link == '/media/') {
+                    e.preventDefault();
+                    alert("该生没有上传成绩！");
+                    return false
+                }
+            })
+        }
+
+        function bindBtnVitEvent() {
+            $(".btn-vit").click(function (e) {
+                var link = $(this).attr('href')
+                if (link == '/media/') {
+                    e.preventDefault();
+                    alert("该生没有上传简历！");
+                    return false
+                }
+            })
+        }
+
+    </script>
+{% endblock %}

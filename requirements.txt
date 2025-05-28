@@ -1,0 +1,11 @@
+asgiref
+Django
+et-xmlfile
+mysqlclient
+openpyxl
+sqlparse
+tzdata
+pandas
+django-import-export
+uwsgi
+django-stubs

@@ -1,0 +1,13 @@
+ERROR 2025-05-23 17:57:52,424 log 8911 123218545260224 Internal Server Error: /professor_info/professor_chose/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_vene/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_vene/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/middleware/auth.py", line 13, in process_request
+    (hasattr(settings, 'STATIC_URL') and request.path_info.startswith(settings.STATIC_URL)) or \
+             ^^^^^^^^
+NameError: name 'settings' is not defined
+ERROR 2025-05-23 17:57:52,425 basehttp 8911 123218545260224 "GET /professor_info/professor_chose/ HTTP/1.1" 500 145
