@@ -137,7 +137,7 @@ LOGGING = {
     "handlers": {
         "file_errors": {  # 修改 handler 名称，更具描述性
             "level": "ERROR",
-            # 'class': 'logging.FileHandler', # 基本的文件处理器
+            # 'class': 'logging.FileHandler',                   # 基本的文件处理器
             "class": "logging.handlers.RotatingFileHandler",  # 使用日志滚动
             "filename": os.path.join(
                 LOG_DIR, "django_errors.log"
@@ -163,11 +163,11 @@ LOGGING = {
             "level": "ERROR",
             "propagate": False,  # 通常不希望请求错误再次被 'django' logger 处理
         },
-        # 'yourapp': { # 如果你有自定义的 app 日志
-        #     'handlers': ['console', 'file_errors'], # 也可以记录你 app 的错误
-        #     'level': 'DEBUG', # 或者你需要的级别
-        #     'propagate': True,
-        # }
+        # "yourapp": {  # 如果你有自定义的 app 日志
+        #     "handlers": ["console", "file_errors"],  # 也可以记录你 app 的错误
+        #     "level": "DEBUG",  # 或者你需要的级别
+        #     "propagate": True,
+        # },
     },
     # 可以添加 root logger 来捕获所有未被特定 logger 处理的日志
     # 'root': {
