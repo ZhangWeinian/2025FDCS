@@ -11,12 +11,7 @@ from FDCSM import models
 
 # 从同级包导入 excel_parser
 from .excel_parser import read_and_map_excel  # 注意这里的相对导入
-from .print_style import (
-    style_ERROR,
-    style_NOTICE,
-    style_SUCCESS,
-    style_WARNING,
-)
+from .print_style import style_ERROR, style_NOTICE, style_SUCCESS, style_WARNING
 
 
 # _parse_excel_integer 可以作为此模块的私有辅助函数
@@ -68,6 +63,8 @@ def import_professors_logic(
         "数学专业可选人数": "pfs_num_math",
         "物理专业可选人数": "pfs_num_psc",
         "系统科学专业可选人数": "pfs_num_sci",
+        "应用统计专业可选人数": "pfs_num_ast",
+        "纳米科学与工程专业可选人数": "pfs_num_nano",
         "导师简介": "pfs_intro",
         "导师电话号码": "pfs_tel_nbr",
     }
@@ -78,6 +75,8 @@ def import_professors_logic(
         "数学专业可选人数",
         "物理专业可选人数",
         "系统科学专业可选人数",
+        "应用统计专业可选人数",
+        "纳米科学与工程专业可选人数",
     ]
     df = read_and_map_excel(file_path, column_map, required_excel_keys)  # 调用辅助函数
 
@@ -122,6 +121,8 @@ def import_professors_logic(
             "pfs_num_math": "PFS_NUM_MATH",
             "pfs_num_psc": "PFS_NUM_PSC",
             "pfs_num_sci": "PFS_NUM_SCI",
+            "pfs_num_ast": "PFS_NUM_AST",
+            "pfs_num_nano": "PFS_NUM_NANO",
         }
         valid_nums = True
         for ik, mf in num_map.items():
@@ -172,14 +173,14 @@ def import_students_logic(
         "学生登录账号": "stu_nbr",
         "学生姓名": "stu_nam",
         "学生登录密码": "stu_pwd",
-        "学生专业（物理专业/数学专业/系统科学专业）": "stu_pro_text",
+        "学生专业（物理专业/数学专业/系统科学专业/应用统计专业/纳米科学与工程专业）": "stu_pro_text",
         "联系电话": "stu_tel_nbr",
     }
     required_excel_keys: List[str] = [
         "学生登录账号",
         "学生姓名",
         "学生登录密码",
-        "学生专业（物理专业/数学专业/系统科学专业）",
+        "学生专业（物理专业/数学专业/系统科学专业/应用统计专业/纳米科学与工程专业）",
     ]
     df = read_and_map_excel(file_path, column_map, required_excel_keys)  # 调用辅助函数
 

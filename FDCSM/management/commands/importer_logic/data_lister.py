@@ -28,7 +28,7 @@ def list_professors(
                 else ""
             )
             stdout.write(
-                f"  导师号: {pfs.PFS_NBR}, 姓名: {pfs.PFS_NAM}, 数学可选: {pfs.PFS_NUM_MATH}, 物理可选: {pfs.PFS_NUM_PSC}, 系统科学可选: {pfs.PFS_NUM_SCI}{intro_info}{tel_info}"
+                f"  导师号: {pfs.PFS_NBR}, 姓名: {pfs.PFS_NAM}, 数学可选: {pfs.PFS_NUM_MATH}, 物理可选: {pfs.PFS_NUM_PSC}, 系统科学可选: {pfs.PFS_NUM_SCI}, 应用统计可选: {pfs.PFS_NUM_AST}, 纳米可选: {pfs.PFS_NUM_NANO}{intro_info}{tel_info}"
             )
         stdout.write(
             style_SUCCESS(stdout, f"  共列出 {professors.count()} 条导师数据。")

@@ -54,6 +54,10 @@ def professor_excel_add(request):
         return JsonResponse({"status": False, "error": "模板格式错误！"})
     if ws["G1"].value != "系统科学专业可选人数":
         return JsonResponse({"status": False, "error": "模板格式错误！"})
+    if ws["H1"].value != "应用统计专业可选人数":
+        return JsonResponse({"status": False, "error": "模板格式错误！"})
+    if ws["I1"].value != "纳米科学与工程专业可选人数":
+        return JsonResponse({"status": False, "error": "模板格式错误！"})
 
     for row in ws.iter_rows(min_row=2):
         exists = models.FDC_PFS_INFO.objects.filter(PFS_NBR=row[0].value)
@@ -66,6 +70,8 @@ def professor_excel_add(request):
                 PFS_NUM_MATH=row[4].value if row[4].value else 0,
                 PFS_NUM_PSC=row[5].value if row[5].value else 0,
                 PFS_NUM_SCI=row[6].value if row[6].value else 0,
+                PFS_NUM_AST=row[7].value if row[7].value else 0,  # 新增
+                PFS_NUM_NANO=row[8].value if row[8].value else 0,  # 新增
             )
         else:
             exists.update(
@@ -75,6 +81,8 @@ def professor_excel_add(request):
                 PFS_NUM_MATH=row[4].value if row[4].value else 0,
                 PFS_NUM_PSC=row[5].value if row[5].value else 0,
                 PFS_NUM_SCI=row[6].value if row[6].value else 0,
+                PFS_NUM_AST=row[7].value if row[7].value else 0,  # 新增
+                PFS_NUM_NANO=row[8].value if row[8].value else 0,  # 新增
             )
 
     return JsonResponse({"status": True})
@@ -105,6 +113,8 @@ def professor_detail(request):
             "PFS_NUM_MATH",
             "PFS_NUM_PSC",
             "PFS_NUM_SCI",
+            "PFS_NUM_AST",  # 新增
+            "PFS_NUM_NANO",  # 新增
         )
         .first()
     )
@@ -168,7 +178,13 @@ def professor_select(request):
     pfs_id = request.session.get("info")["id"]
     # querySet = models.FDC_PFS_INFO.objects.annotate(select_count=Count('fdc_pfs_sel')).exclude(
     #     Q(PFS_NUM_PSC=0) | Q(select_count__gte=F('PFS_NUM_PSC')))
-    pro_choice = {"0": "PFS_NUM_PSC", "1": "PFS_NUM_MATH", "2": "PFS_NUM_SCI"}
+    pro_choice = {
+        "0": "PFS_NUM_PSC",
+        "1": "PFS_NUM_MATH",
+        "2": "PFS_NUM_SCI",
+        "3": "PFS_NUM_AST",
+        "4": "PFS_NUM_NANO",
+    }  # 添加新的专业
     status = models.FDC_STAT_INFO.objects.values("STAT_ID").all().first()
     if status is None or "STAT_ID" not in status:
         return JsonResponse(

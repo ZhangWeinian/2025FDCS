@@ -66,6 +66,7 @@ urlpatterns = [
     path("student_info/student_select/", myStudent.student_select),
     path("student_info/delete_sel/", myStudent.student_delete_sel),
     path("student_info/upload/", myStudent.student_upload),
+    # 默认登录
     path("login/", account.login),
     path("logout/", account.logout),
     path("stu_login/", account.stu_login),

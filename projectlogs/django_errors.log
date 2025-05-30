@@ -11,3 +11,120 @@ Traceback (most recent call last):
              ^^^^^^^^
 NameError: name 'settings' is not defined
 ERROR 2025-05-23 17:57:52,425 basehttp 8911 123218545260224 "GET /professor_info/professor_chose/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:20:19,096 log 2567 126535036040896 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 122, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:20:19,098 basehttp 2567 126535036040896 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:23:39,611 log 2567 126535036040896 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 122, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:23:39,611 basehttp 2567 126535036040896 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:24:09,063 log 4029 133577103554240 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 123, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:24:09,064 basehttp 4029 133577103554240 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:24:24,653 log 4111 125373777962688 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 122, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:24:24,654 basehttp 4111 125373777962688 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:25:06,074 log 4279 128749379958464 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 122, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:25:06,075 basehttp 4279 128749379958464 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:26:29,175 log 4603 124643320968896 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 123, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:26:29,176 basehttp 4603 124643320968896 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:31:52,736 log 5125 128340099774144 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 122, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:31:52,738 basehttp 5125 128340099774144 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:34:08,812 log 5125 128340099774144 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 122, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:34:08,813 basehttp 5125 128340099774144 "GET /admin_info/outExcel/ HTTP/1.1" 500 145
+ERROR 2025-05-30 19:37:50,133 log 6706 129193986668224 Internal Server Error: /admin_info/outExcel/
+Traceback (most recent call last):
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/py_venv/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zhangwn2/source/2025FDCS/FDCSM/view/myAdmin.py", line 122, in export_excel
+    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
+                            ^^^^^^^^^^^
+AttributeError: 'Dataset' object has no attribute 'xls'. Did you mean: 'xlsx'?
+ERROR 2025-05-30 19:37:50,133 basehttp 6706 129193986668224 "GET /admin_info/outExcel/ HTTP/1.1" 500 145

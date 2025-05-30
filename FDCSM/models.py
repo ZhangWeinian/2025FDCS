@@ -10,7 +10,13 @@ class FDC_STU_INFO(models.Model):
     STU_TEL_NBR = models.CharField(
         verbose_name="电话号码", max_length=20, blank=True, null=True
     )
-    stu_pro_choices = ((0, "物理专业"), (1, "数学专业"), (2, "系统科学专业"))
+    stu_pro_choices = (
+        (0, "物理专业"),
+        (1, "数学专业"),
+        (2, "系统科学专业"),
+        (3, "应用统计专业"),  # 新增应用统计专业
+        (4, "纳米科学与工程专业"),  # 新增纳米科学与工程专业
+    )
     STU_PRO = models.IntegerField(verbose_name="专业", choices=stu_pro_choices)
     stu_typ_choices = ((0, "未被导师录取"), (1, "已被导师录取"))
     STU_TYP = models.IntegerField(
@@ -74,6 +80,12 @@ class FDC_PFS_INFO(models.Model):
     PFS_NUM_MATH = models.IntegerField(verbose_name="数学专业可选人数", default=0)
     PFS_NUM_PSC = models.IntegerField(verbose_name="物理专业可选人数", default=0)
     PFS_NUM_SCI = models.IntegerField(verbose_name="系统科学专业可选人数", default=0)
+    PFS_NUM_AST = models.IntegerField(
+        verbose_name="应用统计专业可选人数", default=0
+    )  # 新增应用统计专业
+    PFS_NUM_NANO = models.IntegerField(
+        verbose_name="纳米科学与工程专业可选人数", default=0
+    )  # 新增纳米科学与工程专业
     CAT_TIM = models.DateTimeField(verbose_name="用户创建时间", default=timezone.now)
     CHG_TIM = models.DateTimeField(verbose_name="用户更新时间", auto_now=True)
 
@@ -94,11 +106,20 @@ class FDC_PFS_SEL(models.Model):
         null=True,
         related_name="PFS_STU_NBR",
     )
-    stu_pro_choices = ((0, "物理专业"), (1, "数学专业"), (2, "系统科学专业"))
+    stu_pro_choices = (
+        (0, "物理专业"),
+        (1, "数学专业"),
+        (2, "系统科学专业"),
+        (3, "应用统计专业"),  # 新增应用统计专业
+        (4, "纳米科学与工程专业"),  # 新增纳米科学与工程专业
+    )
     STU_PRO = models.IntegerField(verbose_name="学生专业", choices=stu_pro_choices)
     PFS_STATE = models.IntegerField(verbose_name="当前状态", default=0)
     CAT_TIM = models.DateTimeField(verbose_name="用户创建时间", auto_now_add=True)
     CHG_TIM = models.DateTimeField(verbose_name="用户更新时间", auto_now=True)
+
+    def get_STU_PRO_display(self):
+        return dict(self.stu_pro_choices).get(self.STU_PRO, "未知")
 
     class Meta:
         db_table = "FDC_PFS_SEL"

@@ -1,3 +1,5 @@
+# FDCSM/view/myStudent.py
+
 import django.utils.timezone as timezone
 from django.db.models import Count, F, Q
 from django.http import HttpResponse, JsonResponse
@@ -44,10 +46,19 @@ def student_excel_add(request):
         return JsonResponse({"status": False, "error": "模板格式错误！"})
     if ws["C1"].value != "学生登录密码":
         return JsonResponse({"status": False, "error": "模板格式错误！"})
-    if ws["D1"].value != "学生专业（物理专业/数学专业/系统科学专业）":
+    if (
+        ws["D1"].value
+        != "学生专业（物理专业/数学专业/系统科学专业/应用统计专业/纳米科学与工程专业）"
+    ):  # 更新表头
         return JsonResponse({"status": False, "error": "模板格式错误！"})
 
-    stu_pro_choices = {"物理专业": 0, "数学专业": 1, "系统科学专业": 2}
+    stu_pro_choices = {
+        "物理专业": 0,
+        "数学专业": 1,
+        "系统科学专业": 2,
+        "应用统计专业": 3,
+        "纳米科学与工程专业": 4,
+    }  # 更新专业代码映射
     for row in ws.iter_rows(min_row=2):
         row_obj = models.FDC_STU_INFO.objects.filter(STU_NBR=row[0].value).first()
         data = {
@@ -119,7 +130,12 @@ def student_chose(request):
     stu_info = models.FDC_STU_INFO.objects.get(STU_NBR=info_id)
     queryVit = models.FDC_STU_INTRO.objects.filter(STU_NBR=info_id).first()
     querySet = models.FDC_PFS_INFO.objects.none()  # 默认空QuerySet，防止未绑定
-    if stu_info.STU_PRO == 1:  # 数学专业
+
+    if stu_info.STU_PRO == 0:  # 物理专业
+        querySet = models.FDC_PFS_INFO.objects.annotate(
+            select_count=Count("fdc_pfs_sel", Q(fdc_pfs_sel__STU_PRO=0))
+        ).exclude(Q(PFS_NUM_PSC=0) | Q(select_count__gte=F("PFS_NUM_PSC")))
+    elif stu_info.STU_PRO == 1:  # 数学专业
         querySet = models.FDC_PFS_INFO.objects.annotate(
             select_count=Count("fdc_pfs_sel", Q(fdc_pfs_sel__STU_PRO=1))
         ).exclude(Q(PFS_NUM_MATH=0) | Q(select_count__gte=F("PFS_NUM_MATH")))
@@ -127,10 +143,14 @@ def student_chose(request):
         querySet = models.FDC_PFS_INFO.objects.annotate(
             select_count=Count("fdc_pfs_sel", Q(fdc_pfs_sel__STU_PRO=2))
         ).exclude(Q(PFS_NUM_SCI=0) | Q(select_count__gte=F("PFS_NUM_SCI")))
-    elif stu_info.STU_PRO == 0:  # 物理专业
+    elif stu_info.STU_PRO == 3:  # 应用统计专业  # 新增
         querySet = models.FDC_PFS_INFO.objects.annotate(
-            select_count=Count("fdc_pfs_sel", Q(fdc_pfs_sel__STU_PRO=0))
-        ).exclude(Q(PFS_NUM_PSC=0) | Q(select_count__gte=F("PFS_NUM_PSC")))
+            select_count=Count("fdc_pfs_sel", Q(fdc_pfs_sel__STU_PRO=3))
+        ).exclude(Q(PFS_NUM_AST=0) | Q(select_count__gte=F("PFS_NUM_AST")))
+    elif stu_info.STU_PRO == 4:  # 纳米科学与工程专业  # 新增
+        querySet = models.FDC_PFS_INFO.objects.annotate(
+            select_count=Count("fdc_pfs_sel", Q(fdc_pfs_sel__STU_PRO=4))
+        ).exclude(Q(PFS_NUM_NANO=0) | Q(select_count__gte=F("PFS_NUM_NANO")))
     page_object = Pagination(request, querySet)
     context = {
         "form": form,

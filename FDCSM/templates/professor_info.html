@@ -17,9 +17,11 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">导师姓名</th>
-                    <th scope="col">物理专业可选人数</th>
-                    <th scope="col">数学专业可选人数</th>
-                    <th scope="col">系统科学专业可选人数</th>
+                    <th scope="col">物理专业<br>可选人数</th>
+                    <th scope="col">数学专业<br>可选人数</th>
+                    <th scope="col">系统科学专业<br>可选人数</th>
+                    <th scope="col">应用统计专业<br>可选人数</th>  <!-- 新增 -->
+                    <th scope="col">纳米科学与工程专业<br>可选人数</th>  <!-- 新增 -->
                     <th scope="col">操 作</th>
                 </tr>
                 </thead>
@@ -34,6 +36,8 @@
                         <td>{{ obj.PFS_NUM_PSC }}</td>
                         <td>{{ obj.PFS_NUM_MATH }}</td>
                         <td>{{ obj.PFS_NUM_SCI }}</td>
+                        <td>{{ obj.PFS_NUM_AST }}</td>  <!-- 新增 -->
+                        <td>{{ obj.PFS_NUM_NANO }}</td>  <!-- 新增 -->
                         <td>
                             <a uid="{{ obj.PFS_NBR }}" class="btn btn-primary btn-sm btn-edit">编辑</a>
                             <a uid="{{ obj.PFS_NBR }}" class="btn btn-danger btn-sm btn-delete">删除</a>
@@ -312,4 +316,3 @@
         }
     </script>
 {% endblock %}
-

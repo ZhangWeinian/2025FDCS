@@ -30,6 +30,8 @@ class ProfessorModelForm(forms.ModelForm):
             "PFS_NUM_MATH",
             "PFS_NUM_PSC",
             "PFS_NUM_SCI",
+            "PFS_NUM_AST",  # 新增
+            "PFS_NUM_NANO",  # 新增
         ]
 
     def __init__(self, *args, **kwargs):
@@ -90,8 +92,17 @@ class ProfessorSelectModelForm(forms.ModelForm):
 
 
 class OutExcel(resources.ModelResource):
-    STU_PRO_display = fields.Field(attribute="get_STU_PRO_display")
+    teacher_name = fields.Field(
+        attribute="PFS_NBR__PFS_NAM", column_name="导师姓名"
+    )  # 使用更友好的 column_name
+    student_name = fields.Field(
+        attribute="PFS_STU_NBR__STU_NAM", column_name="学生姓名"
+    )  # 使用更友好的 column_name
+    student_major = fields.Field(
+        attribute="get_STU_PRO_display", column_name="学生专业"
+    )  # 使用更友好的 column_name
 
     class Meta:
         model = models.FDC_PFS_SEL
-        fields = ["PFS_NBR__PFS_NAM", "PFS_STU_NBR__STU_NAM", "STU_PRO_display"]
+        fields = ["teacher_name", "student_name", "student_major"]  # 使用英文变量名
+        export_order = ("teacher_name", "student_name", "student_major")  # 指定顺序

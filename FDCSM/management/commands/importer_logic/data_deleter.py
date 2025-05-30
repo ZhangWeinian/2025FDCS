@@ -21,8 +21,11 @@ def delete_data_with_confirmation(
         if interactive:
             stdout.write("")
             confirm = input(
-                f"警告：你选择了删除所有【{model_name_display}】数据。这个操作不可逆！\n"
-                f"确定要继续吗？ (yes/no): "
+                style_WARNING(
+                    None,
+                    message=f"你选择了删除所有【{model_name_display}】数据。这个操作不可逆！\n",
+                )
+                + style_WARNING(None, message=f"确定要继续吗？ (yes/no): ")
             )
             if confirm.lower() != "yes":
                 stdout.write(
@@ -62,4 +65,4 @@ def delete_data_with_confirmation(
             )
         )
         return True
-    # stdout.write("") # 调用者可以决定是否加空行
+    # stdout.write("") # 是否加空行

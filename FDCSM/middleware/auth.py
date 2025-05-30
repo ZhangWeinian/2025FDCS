@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.shortcuts import HttpResponse, redirect
 from django.utils.deprecation import MiddlewareMixin
 

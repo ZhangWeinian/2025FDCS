@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
+from import_export.formats import base_formats
 
 from FDCSM import models
 from FDCSM.utils.pagination import Pagination
@@ -119,6 +120,10 @@ def deleteAdmin(request):
 def export_excel(request):
     queryset = models.FDC_PFS_SEL.objects.all()
     dataset = OutExcel().export(queryset)
-    response = HttpResponse(dataset.xls, content_type="application/vnd.ms-excel")
-    response["Content-Disposition"] = 'attachment; filename="somefilename.xls"'
+    excel_format = base_formats.XLSX()
+    response = HttpResponse(
+        excel_format.export_data(dataset),
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    response["Content-Disposition"] = 'attachment; filename="selection_results.xlsx"'
     return response
