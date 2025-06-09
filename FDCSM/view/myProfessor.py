@@ -48,9 +48,9 @@ def professor_excel_add(request):
         return JsonResponse({"status": False, "error": "模板格式错误！"})
     if ws["D1"].value != "导师简介":
         return JsonResponse({"status": False, "error": "模板格式错误！"})
-    if ws["E1"].value != "数学专业可选人数":
+    if ws["E1"].value != "物理专业可选人数":
         return JsonResponse({"status": False, "error": "模板格式错误！"})
-    if ws["F1"].value != "物理专业可选人数":
+    if ws["F1"].value != "数学专业可选人数":
         return JsonResponse({"status": False, "error": "模板格式错误！"})
     if ws["G1"].value != "系统科学专业可选人数":
         return JsonResponse({"status": False, "error": "模板格式错误！"})
