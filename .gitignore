@@ -18,10 +18,10 @@ htmlcov/
 # 3. Django-specific Ignores
 # ---------------------------------
 # 忽略用户上传的媒体文件 (media 文件夹)
-media/
+**/media/
 
 # 忽略 collectstatic 生成的静态文件集合
-staticfiles/
+**/staticfiles/
 
 # 忽略本地开发用的数据库文件
 db.sqlite3
@@ -30,7 +30,7 @@ db.sqlite3
 # 4. Project-specific Ignores
 # ---------------------------------
 # 忽略你的日志文件目录
-projectlogs/
+**/projectlogs/
 
 # 5. Environment & IDE settings
 # ---------------------------------
