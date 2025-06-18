@@ -1,2 +1,10 @@
+# .gitignore
+
+# Python cache
+__pycache__/
+
+# Pytest cache
+.pytest_cache/
+
 New/media
 New/projectlogs
