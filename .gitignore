@@ -1,10 +1,49 @@
-# .gitignore
+# 2025FDCS/.gitignore
 
-# Python cache
-__pycache__/
+# 1. Python & Django Cache Files
+# ---------------------------------
+# 忽略所有 __pycache__ 目录
+**/__pycache__/
+# 忽略所有 .pyc 字节码文件
+*.pyc
 
-# Pytest cache
-.pytest_cache/
+# 2. Testing Cache
+# ---------------------------------
+# 忽略 Pytest 的缓存目录
+**/.pytest_cache/
+# 忽略 coverage 测试覆盖率报告
+.coverage
+htmlcov/
 
-New/media
-New/projectlogs
+# 3. Django-specific Ignores
+# ---------------------------------
+# 忽略用户上传的媒体文件 (media 文件夹)
+media/
+
+# 忽略 collectstatic 生成的静态文件集合
+staticfiles/
+
+# 忽略本地开发用的数据库文件
+db.sqlite3
+*.sqlite3
+
+# 4. Project-specific Ignores
+# ---------------------------------
+# 忽略你的日志文件目录
+projectlogs/
+
+# 5. Environment & IDE settings
+# ---------------------------------
+# 忽略虚拟环境文件夹
+.venv/
+venv/
+env/
+
+# 忽略 IDE 配置文件
+.idea/
+.vscode/
+
+# 6. OS-generated files
+# ---------------------------------
+.DS_Store
+Thumbs.db
