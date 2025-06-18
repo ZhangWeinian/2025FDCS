@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>管理员页面</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <a type="button" href="/admin_info/outExcel/" class="btn btn-primary">
+                导出Excel
+            </a>
+        </div>
+        <div class="alert-heading">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">学生姓名</th>
+                    <th scope="col">学生专业</th>
+                    <th scope="col">导师姓名</th>
+                    <th scope="col">操 作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                    <tr id="{{ obj.PFS_STU_NBR.STU_NAM }}">
+                        <td>{{ obj.PFS_STU_NBR.STU_NAM }}</td>
+                        <td>{{ obj.PFS_STU_NBR.get_STU_PRO_display }}</td>
+                        <td>{{ obj.PFS_NBR.PFS_NAM }}</td>
+                        <td>
+                            <a href="/admin_info/deleteAdmin/?stu_id={{ obj.PFS_STU_NBR_id }}&pfs_id={{ obj.PFS_NBR_id }}" class="btn btn-danger btn-sm btn-restart">重选</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {{ page_string }}
+            </ul>
+        </nav>
+    </div>
+
+{% endblock %}
+
+
+
+{% block js %}
+    <script type="text/javascript">
+    </script>
+{% endblock %}
+
+

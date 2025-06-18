@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" , href="{% static 'plugins/bootstrap-4.4.1-dist/css/bootstrap.css' %}">
+    <title>选择导师（三个志愿）</title>
+</head>
+
+<body>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light con">
+        <div class="container">
+            <div class="collapse navbar-collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            {{ request.session.info.name }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/stu_logout/">注销</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/student_info/student_chose/" id="btnEdit">导师选择</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/student_info/upload/">上传成绩及简历</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="alert-heading">
+        <table class="table table-hover">
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                        </div>
+                    </div>
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    <span class="error-msg" style="color: red;">{{ field.errors.0 }}</span>
+                {% endfor %}
+                <div class="modal-footer">
+                    <input type="submit" value="提交" class="btn btn-success">
+                </div>
+            </form>
+        </table>
+    </div>
+</div>
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
+
+<script type="text/javascript">
+</script>
+
+</body>
+</html>

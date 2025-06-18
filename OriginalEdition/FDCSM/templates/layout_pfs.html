@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" , href="{% static 'plugins/bootstrap-4.4.1-dist/css/bootstrap.css' %}">
+    {% block title %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light con">
+    <div class="container">
+        <div class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        {{ request.session.info.name }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/pfs_logout/">注销</a>
+                    </div>
+                </li>
+                <li>
+                    <a class="nav-link" href="#" id="btnEdit" uid="{{ request.session.info.id }}">修改信息</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div style="margin: 10px">
+    {% block content %}{% endblock %}
+</div>
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-4.4.1-dist/js/bootstrap.js' %}"></script>
+
+{% block js %}
+{% endblock %}
+</body>
+</html>
